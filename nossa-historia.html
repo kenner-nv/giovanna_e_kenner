@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nossa História · Giovanna &amp; Kenner</title>
+<meta name="description" content="A história de Giovanna e Kenner — do primeiro encontro ao pedido de casamento.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Luxurious+Script&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="imagens/favicon.png">
+<link rel="apple-touch-icon" href="imagens/favicon.png">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/nossa-historia.css">
+</head>
+<body>
+
+<!-- ============ CURSOR / LOADING VEIL ============ -->
+<div class="veil" id="veil" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="site-header__inner">
+    <a href="index.html" class="brand" aria-label="Página inicial — Giovanna e Kenner">
+      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo">
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="primaryNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="nossa-historia.html" class="is-active">Nossa<br class="nav-break">História</a></li>
+        <li><a href="lista-presentes.html">Lista de<br class="nav-break">Presentes</a></li>
+        <li><a href="confirmar-presenca.html">Confirmar<br class="nav-break">Presença</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ NOSSA HISTÓRIA — SLIDER ============ -->
+  <section class="nh" id="nh">
+
+    <!-- fundo: sequência de 15 imagens que se sobrepõem conforme os capítulos avançam -->
+    <div class="nh__bg" id="nhBg" aria-hidden="true">
+      <div class="nh__bg-layer" data-bg-index="0" style="background-image:url('imagens/nossa_historia/bg-01.webp')"></div>
+      <div class="nh__bg-layer" data-bg-index="1" style="background-image:url('imagens/nossa_historia/bg-02.webp')"></div>
+      <div class="nh__bg-layer" data-bg-index="2" style="background-image:url('imagens/nossa_historia/bg-03.webp')"></div>
+      <div class="nh__bg-layer" data-bg-index="3" style="background-image:url('imagens/nossa_historia/bg-04.webp')"></div>
+      <div class="nh__bg-layer" data-bg-index="4" style="background-image:url('imagens/nossa_historia/bg-05.webp')"></div>
+    </div>
+    <div class="nh__scrim" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- topo: divisória (estilo seção final) + título -->
+    <div class="nh__top">
+      <div class="divider divider--white" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__ornament">
+          <img src="imagens/divisor_final.svg" alt="" class="ornament-svg">
+        </span>
+        <span class="divider__line"></span>
+      </div>
+      <h1 class="nh__title">Nossa História</h1>
+    </div>
+
+    <!-- centro: slider de capítulos -->
+    <div class="nh__stage">
+      <button class="nh__arrow nh__arrow--prev" id="nhPrev" type="button" aria-label="Capítulo anterior">
+        <svg viewBox="0 0 34 14" aria-hidden="true"><path d="M34 7H3M10 1L3 7l7 6" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+
+      <div class="nh__slider">
+        <button class="nh__preview nh__preview--prev" id="nhPreviewPrev" type="button" aria-label="Ir para o capítulo anterior">
+          <span class="nh__preview-title" id="nhPreviewPrevTitle"></span>
+        </button>
+
+        <article class="nh__card" id="nhCard">
+          <div class="nh__card-inner" id="nhCardInner">
+            <div class="nh__card-text">
+              <h2 class="nh__card-title" id="nhCardTitle"></h2>
+              <div class="nh__card-body-scroll">
+                <p class="nh__card-body" id="nhCardBody"></p>
+              </div>
+            </div>
+            <div class="nh__card-photos" id="nhCardPhotos">
+              <div class="nh__photo nh__photo--a">
+                <img id="nhPhotoA" src="" alt="">
+              </div>
+              <div class="nh__photo nh__photo--b">
+                <img id="nhPhotoB" src="" alt="">
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <button class="nh__preview nh__preview--next" id="nhPreviewNext" type="button" aria-label="Ir para o próximo capítulo">
+          <span class="nh__preview-title" id="nhPreviewNextTitle"></span>
+        </button>
+      </div>
+
+      <button class="nh__arrow nh__arrow--next" id="nhNext" type="button" aria-label="Próximo capítulo">
+        <svg viewBox="0 0 34 14" aria-hidden="true"><path d="M0 7h31M24 1l7 6-7 6" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+    </div>
+
+    <p class="nh__counter" id="nhCounter" aria-live="polite">
+      <span class="nh__counter-current" id="nhCounterCurrent">01</span><span class="nh__counter-sep">/</span><span class="nh__counter-total" id="nhCounterTotal">05</span>
+    </p>
+
+    <!-- rodapé: divisória (estilo hero) -->
+    <div class="nh__bottom">
+      <div class="divider hero__divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__ornament">
+          <img src="imagens/divisor_hero.svg" alt="" class="ornament-svg">
+        </span>
+        <span class="divider__line"></span>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/nossa-historia.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Presentes · Giovanna &amp; Kenner</title>
+<meta name="description" content="Lista de presentes de Giovanna e Kenner — sugestões para cozinha, quarto e sala, banheiro e lavanderia.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Luxurious+Script&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="imagens/favicon.png">
+<link rel="apple-touch-icon" href="imagens/favicon.png">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/lista-presentes.css">
+</head>
+<body>
+
+<!-- ============ CURSOR / LOADING VEIL ============ -->
+<div class="veil" id="veil" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="site-header__inner">
+    <a href="index.html" class="brand" aria-label="Página inicial — Giovanna e Kenner">
+      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo">
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="primaryNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="nossa-historia.html">Nossa<br class="nav-break">História</a></li>
+        <li><a href="lista-presentes.html" class="is-active">Lista de<br class="nav-break">Presentes</a></li>
+        <li><a href="confirmar-presenca.html">Confirmar<br class="nav-break">Presença</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ LISTA DE PRESENTES ============ -->
+  <section class="lp" id="lp">
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- topo: divisória (estilo contagem) + título -->
+    <div class="lp__top lp__reveal">
+      <div class="divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__ornament divider__ornament--glow">
+          <img src="imagens/divisor_superior.svg" alt="" class="ornament-svg">
+        </span>
+        <span class="divider__line"></span>
+      </div>
+      <h1 class="lp__title">Lista de Presentes</h1>
+      <p class="lp__phrase">"um novo lar, construído com amor e carinho, para vivermos esse novo capítulo"</p>
+    </div>
+
+    <!-- ============ PALETA DE CORES ============ -->
+    <div class="lp__block lp__reveal">
+      <div class="lp__subtitle-row">
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+        <h2 class="lp__subtitle">nossa paleta de cores</h2>
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+      </div>
+      <div class="lp__card lp__card--palette">
+        <div class="lp__swatch">
+          <span class="lp__circle lp__circle--preto"></span>
+          <span class="lp__swatch-label">preto</span>
+        </div>
+        <div class="lp__swatch">
+          <span class="lp__circle lp__circle--branco"></span>
+          <span class="lp__swatch-label">branco</span>
+        </div>
+        <div class="lp__swatch">
+          <span class="lp__circle lp__circle--cinza"></span>
+          <span class="lp__swatch-label">cinza</span>
+        </div>
+        <div class="lp__swatch">
+          <span class="lp__circle lp__circle--bege"></span>
+          <span class="lp__swatch-label">bege</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ COZINHA ============ -->
+    <div class="lp__block">
+      <p class="lp__phrase">para muitas receitas na nossa</p>
+      <div class="lp__subtitle-row">
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+        <h2 class="lp__subtitle">cozinha</h2>
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+      </div>
+      <div class="lp__card">
+        <div class="lp__grid" id="lpKitchenGrid"></div>
+      </div>
+    </div>
+
+    <!-- ============ QUARTO E SALA ============ -->
+    <div class="lp__block lp__reveal">
+      <p class="lp__phrase">para momentos de descanso no nosso</p>
+      <div class="lp__subtitle-row">
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+        <h2 class="lp__subtitle">quarto e sala</h2>
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+      </div>
+      <div class="lp__card">
+        <div class="lp__grid" id="lpBedroomGrid"></div>
+      </div>
+    </div>
+
+    <!-- ============ BANHEIRO E LAVANDERIA ============ -->
+    <div class="lp__block lp__reveal">
+      <p class="lp__phrase">para cuidar dos detalhes do nosso</p>
+      <div class="lp__subtitle-row">
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+        <h2 class="lp__subtitle">banheiro e lavanderia</h2>
+        <span class="lp__subtitle-line" aria-hidden="true"></span>
+      </div>
+      <div class="lp__card">
+        <div class="lp__grid" id="lpBathroomGrid"></div>
+      </div>
+    </div>
+
+    <!-- rodapé: divisória (estilo contagem) -->
+    <div class="lp__bottom lp__reveal">
+      <div class="divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__ornament">
+          <img src="imagens/divisor_inferior.svg" alt="" class="ornament-svg">
+        </span>
+        <span class="divider__line"></span>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/lista-presentes.js"></script>
+</body>
+</html>

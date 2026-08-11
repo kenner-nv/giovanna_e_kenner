@@ -1,0 +1,396 @@
+/* =========================================================
+   NOSSA HISTÓRIA — página dedicada
+   Depende dos tokens e classes base definidos em style.css
+   (--color-*, --font-*, --ease-*, --divider-width, .divider,
+   .divider__line, .divider__ornament, .hero__divider, .grain)
+   ========================================================= */
+
+/* =========================================================
+   SEÇÃO / FUNDO
+   A seção ocupa exatamente 100vh — nada exige rolagem.
+   O espaço central (.nh__stage) absorve toda a folga
+   disponível, então o card sempre cabe na tela.
+   ========================================================= */
+.nh{
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--color-bg);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--header-h) + 1rem) 1.5rem 1.1rem;
+  text-align: center;
+}
+
+.nh__bg{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.nh__bg-layer{
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 1.7s linear, transform 7s linear;
+  will-change: opacity, transform;
+}
+.nh__bg-layer.is-visible{
+  opacity: 1;
+  transform: scale(1.07);
+}
+
+/* Véu leve apenas para garantir legibilidade do texto — sem escurecer a imagem */
+.nh__scrim{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,5,6,.32) 0%, rgba(6,5,6,.06) 18%, rgba(6,5,6,.08) 74%, rgba(6,5,6,.34) 100%);
+}
+.nh .grain{ z-index: 3; }
+
+/* =========================================================
+   TOPO — divisória + título
+   ========================================================= */
+.nh__top{
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  width: 100%;
+  animation: nh-fade-in 1s var(--ease-out) .15s both;
+}
+.nh__title{
+  margin-top: .9rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  /* 30% menor que o título padrão das seções (--fs-title) */
+  font-size: calc(var(--fs-title) * 0.7);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.6);
+}
+
+@keyframes nh-fade-in{
+  from{ opacity: 0; transform: translateY(14px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* Garante que as divisórias desta página fiquem sempre visíveis,
+   independentemente do sistema de scroll-reveal do main.js */
+.nh__top .divider,
+.nh__bottom .divider{
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Corrige a centralização: .hero__divider define margin horizontal 0
+   (herdado da seção Hero); aqui forçamos a centralização mantendo
+   as margens verticais originais. */
+.nh__bottom .divider{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* divisória branca (mesma estrutura da seção final, cor clara) */
+.divider--white .divider__line{ height: 2px; }
+.divider--white .divider__line:first-child{
+  background: linear-gradient(90deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.55) 55%, rgba(255,255,255,.05) 100%);
+}
+.divider--white .divider__line:last-child{
+  background: linear-gradient(90deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.55) 45%, rgba(255,255,255,.55) 100%);
+}
+.divider--white .divider__line:first-child::before,
+.divider--white .divider__line:last-child::after{
+  background: rgba(255,255,255,.55);
+}
+.divider--white .divider__ornament{
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.3));
+}
+
+/* =========================================================
+   CENTRO — slider de capítulos
+   flex:1 1 auto + min-height:0 faz esta área absorver toda a
+   folga vertical restante, então o card nunca ultrapassa a tela.
+   ========================================================= */
+.nh__stage{
+  position: relative;
+  z-index: 4;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0.9rem auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(.5rem, 2vw, 1.6rem);
+}
+
+.nh__slider{
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(.6rem, 2vw, 1.8rem);
+  min-width: 0;
+}
+
+/* ---------- Card principal ----------
+   Altura = 100% do espaço disponível: todos os capítulos
+   ocupam exatamente o mesmo espaço, sempre dentro da tela.
+------------------------------------------------------------ */
+.nh__card{
+  position: relative;
+  flex: 1 1 auto;
+  align-self: stretch;
+  min-width: 0;
+  max-width: 760px;
+  height: 100%;
+  display: flex;
+  border-radius: 22px;
+  border: 1px solid rgba(216,201,234,.5);
+  background: rgba(255,255,255,.62);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 24px 60px rgba(10,4,16,.35), inset 0 1px 0 rgba(255,255,255,.4);
+  padding: clamp(1.2rem, 2.4vw, 2.2rem);
+  overflow: hidden;
+}
+.nh__card-inner{
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(1.2rem, 3vw, 2.2rem);
+  align-items: stretch;
+  transition: opacity .38s var(--ease-out), transform .38s var(--ease-out);
+}
+.nh__card-inner.is-transitioning{
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.nh__card-text{
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+}
+.nh__card-title{
+  flex: 0 0 auto;
+  /* mesma fonte usada no título/texto da seção "Nossa História" da home */
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(.9rem, 1.2vw, 1.3rem);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: var(--color-title-dark);
+  margin-bottom: .7rem;
+  min-height: 2.5em; /* reserva o mesmo espaço para títulos de 1 ou 2 linhas */
+}
+.nh__card-body-scroll{
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: .7rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(76,42,96,.35) transparent;
+}
+.nh__card-body-scroll::-webkit-scrollbar{ width: 5px; }
+.nh__card-body-scroll::-webkit-scrollbar-track{ background: transparent; }
+.nh__card-body-scroll::-webkit-scrollbar-thumb{
+  background: rgba(76,42,96,.3);
+  border-radius: 4px;
+}
+.nh__card-body{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(.75rem, 1.05vw, 1.05rem);
+  line-height: 1.65;
+  color: var(--color-title-dark);
+}
+
+.nh__card-photos{
+  position: relative;
+  height: 100%;
+  min-height: 0;
+}
+.nh__photo{
+  position: absolute;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 3px solid #fff; /* 60% da espessura original (5px) */
+  box-shadow: 0 16px 34px rgba(10,4,16,.32);
+  z-index: 1;
+  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+}
+.nh__photo.is-front{ z-index: 3; }
+.nh__photo img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.9) contrast(1.02);
+  transition: filter .5s var(--ease-out), transform .5s var(--ease-out);
+}
+.nh__photo:hover{
+  transform: scale(1.045);
+  box-shadow: 0 20px 44px rgba(10,4,16,.42);
+}
+.nh__photo:hover img{
+  filter: saturate(1.2) contrast(1.04);
+  transform: scale(1.06);
+}
+.nh__photo--a{
+  width: 62%;
+  height: 64%;
+  top: 0;
+  right: 0;
+}
+.nh__photo--b{
+  width: 56%;
+  height: 58%;
+  left: 0;
+  bottom: 0;
+}
+
+/* ---------- Prévias (anterior / próximo) ---------- */
+.nh__preview{
+  flex: 0 0 auto;
+  align-self: center;
+  width: clamp(56px, 10vw, 140px);
+  aspect-ratio: 3 / 4;
+  max-height: 88%;
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 10px 22px rgba(0,0,0,.1); /* sombra leve (10%) */
+  filter: blur(1.5px);
+  opacity: .45;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity .4s var(--ease-out), filter .4s var(--ease-out), transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
+}
+.nh__preview:hover,
+.nh__preview:focus-visible{
+  opacity: .8;
+  filter: blur(0px);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 28px rgba(0,0,0,.1);
+}
+.nh__preview-title{
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(.68rem, 1.1vw, .82rem);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0,0,0,.55);
+  padding: .8rem .5rem;
+}
+
+/* ---------- Setas ---------- */
+.nh__arrow{
+  flex: 0 0 auto;
+  align-self: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(255,255,255,.06);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.1); /* sombra leve (10%) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .35s var(--ease-out), border-color .35s var(--ease-out), transform .35s var(--ease-out), box-shadow .35s var(--ease-out);
+}
+.nh__arrow svg{ width: 20px; height: 9px; }
+.nh__arrow:hover,
+.nh__arrow:focus-visible{
+  background: rgba(255,255,255,.16);
+  border-color: rgba(255,255,255,.6);
+  transform: scale(1.08);
+  box-shadow: 0 10px 22px rgba(0,0,0,.1);
+}
+.nh__arrow:active{ transform: scale(.96); }
+
+/* =========================================================
+   CONTADOR DE CAPÍTULOS
+   ========================================================= */
+.nh__counter{
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: .9rem;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.8);
+  text-shadow: 0 1px 6px rgba(0,0,0,.5);
+  margin-bottom: .5rem;
+}
+.nh__counter-current{
+  font-weight: 700;
+  color: #ffffff;
+}
+.nh__counter-sep{ margin: 0 .25em; opacity: .6; }
+
+/* =========================================================
+   RODAPÉ — divisória estilo hero
+   ========================================================= */
+.nh__bottom{
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  width: 100%;
+  animation: nh-fade-in 1s var(--ease-out) .3s both;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 980px){
+  .nh__preview{ display: none; }
+  .nh__stage{ gap: .6rem; }
+}
+
+@media (max-width: 860px){
+  .nh{ padding: calc(var(--header-h) + .8rem) 1.1rem .9rem; }
+
+  .nh__card-inner{
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+  .nh__card-text{ text-align: center; align-items: center; flex: 1 1 auto; min-height: 0; }
+  .nh__card-title{ min-height: 0; }
+  .nh__card-photos{ flex: 0 0 40%; min-height: 0; max-width: 320px; margin: 0 auto; width: 100%; }
+  .nh__arrow{ width: 38px; height: 38px; }
+
+  /* reduz o respiro entre o contador e a divisória final,
+  liberando mais espaço vertical para o card */
+  .nh__counter{ margin-bottom: .25rem; }
+  .nh__bottom .divider{ margin-top: 0; }
+}
+
+@media (max-width: 480px){
+  .nh__card{ padding: 1rem .9rem; }
+}

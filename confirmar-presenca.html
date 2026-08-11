@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmar Presença · Giovanna &amp; Kenner</title>
+<meta name="description" content="Confirme sua presença no casamento de Giovanna e Kenner.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Luxurious+Script&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="imagens/favicon.png">
+<link rel="apple-touch-icon" href="imagens/favicon.png">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/confirmar-presenca.css">
+</head>
+<body>
+
+<!-- ============ CURSOR / LOADING VEIL ============ -->
+<div class="veil" id="veil" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="site-header__inner">
+    <a href="index.html" class="brand" aria-label="Página inicial — Giovanna e Kenner">
+      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo">
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="primaryNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="nossa-historia.html">Nossa<br class="nav-break">História</a></li>
+        <li><a href="lista-presentes.html">Lista de<br class="nav-break">Presentes</a></li>
+        <li><a href="confirmar-presenca.html" class="is-active">Confirmar<br class="nav-break">Presença</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ CONFIRMAR PRESENÇA ============ -->
+  <section class="cp" id="cp">
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- topo: divisória + título + versículo -->
+    <div class="cp__top cp__reveal">
+      <div class="divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__ornament divider__ornament--glow">
+          <img src="imagens/divisor_superior.svg" alt="" class="ornament-svg">
+        </span>
+        <span class="divider__line"></span>
+      </div>
+      <h1 class="cp__title">Confirmação de Presença</h1>
+      <p class="cp__quote">
+        “Um sozinho pode ser vencido, mas dois permanecem unidos; e o cordão de três dobras dificilmente se rompe”
+        <span class="cp__quote-ref">Eclesiastes 4:12</span>
+      </p>
+    </div>
+
+    <!-- centro: aviso -->
+    <div class="cp__block cp__reveal">
+      <p class="cp__phrase">Em breve você poderá confirmar aqui sua presença no nosso grande dia</p>
+    </div>
+
+    <!-- rodapé: divisória -->
+    <div class="cp__bottom cp__reveal">
+      <div class="divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__ornament">
+          <img src="imagens/divisor_inferior.svg" alt="" class="ornament-svg">
+        </span>
+        <span class="divider__line"></span>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+/* =========================================================
+   LISTA DE PRESENTES — página dedicada
+   Depende dos tokens e classes base definidos em style.css
+   (--color-*, --font-*, --ease-*, --divider-width, .divider,
+   .divider__line, .divider__ornament, .grain)
+   ========================================================= */
+
+/* =========================================================
+   SEÇÃO / FUNDO
+   Mesmo degradê + imagem de fundo da seção "contagem" da
+   home, porém fixos (não rolam junto com o conteúdo).
+   ========================================================= */
+.lp{
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--header-h) + 2.6rem) 1.5rem 5rem;
+  text-align: center;
+
+  /* a primeira camada listada fica por cima: a imagem precisa vir
+     antes do degradê para que ela apareça sobre a cor de fundo */
+  background-image:
+    url('../imagens/contagem_back.png'),
+    linear-gradient(45deg, var(--color-light-start) 0%, var(--color-light-end) 100%);
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+  background-position: center, center;
+  background-attachment: fixed, fixed;
+}
+.lp .grain{ z-index: 1; }
+
+/* ---------- Divisórias em tom roxo (mesmo padrão das seções
+   "contagem" e "cerimônia", que também têm fundo claro) ---------- */
+.lp .divider__line:first-child{
+  background: linear-gradient(90deg, rgba(76,42,96,.35) 0%, rgba(76,42,96,.35) 55%, rgba(76,42,96,.05) 100%);
+}
+.lp .divider__line:last-child{
+  background: linear-gradient(90deg, rgba(76,42,96,.05) 0%, rgba(76,42,96,.35) 45%, rgba(76,42,96,.35) 100%);
+}
+.lp .divider__line:first-child::before,
+.lp .divider__line:last-child::after{
+  background: rgba(76,42,96,.35);
+}
+
+/* espaço padrão entre o título/grid de um bloco e o subtítulo
+   seguinte — usado tanto abaixo do título principal quanto
+   entre cada card e o próximo subtítulo */
+.lp{
+  --lp-section-gap: clamp(3.6rem, 2.2rem + 4vw, 6rem);
+}
+
+/* =========================================================
+   TOPO — divisória + título
+   ========================================================= */
+.lp__top{
+  position: relative;
+  z-index: 2;
+  max-width: var(--container);
+  margin: 0 auto var(--lp-section-gap);
+}
+.lp__top .divider{ margin-bottom: 1.6rem; }
+
+.lp__title{
+  font-family: var(--font-display);
+  font-weight: 400;
+  /* mesmo tamanho utilizado no título da página "Nossa História" */
+  font-size: calc(var(--fs-title) * 0.7);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-title-dark);
+}
+
+/* ---------- Frase romântica ----------
+   Mesma fonte/cor dos antigos subtítulos (itálico, minúsculo,
+   roxo), porém 70% do tamanho e sem negrito. Usada logo abaixo
+   do título principal e antes de cada subtítulo de ambiente. ---------- */
+.lp__phrase{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(.63rem, .315rem + .84vw, .8925rem);
+  letter-spacing: .03em;
+  color: var(--color-subtitle-deep);
+  margin: .9rem 0 0;
+}
+
+/* =========================================================
+   BLOCOS DE CONTEÚDO
+   ========================================================= */
+.lp__block{
+  position: relative;
+  z-index: 2;
+  max-width: var(--container);
+  margin: 0 auto var(--lp-section-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lp__block:last-of-type{ margin-bottom: 1rem; }
+
+/* a frase romântica de cada bloco reaproveita .lp__phrase, apenas
+   ajustando a margem para ficar entre o card anterior e o subtítulo */
+.lp__block .lp__phrase{ margin: 0 0 .5rem; }
+
+.lp__subtitle-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 0 0 0.9rem;
+}
+.lp__subtitle-line{
+  flex: 0 0 auto;
+  width: 6vw;
+  height: 1.875px;
+  /* 60% da opacidade usada nas divisórias do início/fim da página */
+  background: rgba(76,42,96,.21);
+}
+
+.lp__subtitle{
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(.9rem, .45rem + 1.2vw, 1.275rem);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #202020;
+  margin: 0;
+}
+
+/* ---------- Card (mesmo estilo glassmorphism da página Nossa História) ---------- */
+.lp__card{
+  width: 100%;
+  border-radius: 22px;
+  border: 1px solid rgba(216,201,234,.5);
+  background: rgba(255,255,255,.05);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 0px 2px rgba(10,4,16,.1), inset 0 1px 0 rgba(255,255,255,.5);
+  padding: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+/* =========================================================
+   PALETA DE CORES
+   ========================================================= */
+.lp__card--palette{
+  max-width: 560px;
+  margin: 0 auto;
+  border: none;
+  background: transparent;
+  backdrop-filter: blur(2px);
+  box-shadow: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(1.4rem, 4vw, 3rem);
+}
+.lp__swatch{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .65rem;
+}
+.lp__circle{
+  width: clamp(46px, 7vw, 64px);
+  height: clamp(46px, 7vw, 64px);
+  border-radius: 50%;
+  border: 2px solid rgba(76,42,96,.16);
+  /*box-shadow: 0 0px 4px rgba(10,4,16,.16);*/
+  transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
+}
+.lp__swatch:hover .lp__circle{
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 12px 24px rgba(10,4,16,.22);
+}
+.lp__circle--preto{ background: #1a1a1a; }
+.lp__circle--branco{ background: #ffffff; border-color: rgba(76,42,96,.28); }
+.lp__circle--cinza{ background: #8c8c8c; }
+.lp__circle--bege{ background: #d9b988; }
+
+.lp__swatch-label{
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 300;
+  font-size: .85rem;
+  letter-spacing: .02em;
+  color: var(--color-title-dark);
+}
+
+/* =========================================================
+   GRID DE SUGESTÕES (cozinha / quarto e sala / banheiro)
+   ========================================================= */
+.lp__grid{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(1rem, 2.2vw, 1.8rem);
+  width: 100%;
+}
+
+.lp__item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .6rem;
+}
+.lp__item-photo{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.8px solid rgba(76,42,96,.45);
+  box-shadow: 0 12px 26px rgba(10,4,16,.18);
+  transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
+}
+.lp__item-photo img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.92) contrast(1.02);
+  transition: filter .4s var(--ease-out), transform .4s var(--ease-out);
+}
+.lp__item:hover .lp__item-photo{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(10,4,16,.24);
+}
+.lp__item:hover .lp__item-photo img{
+  filter: saturate(1.1) contrast(1.04);
+  transform: scale(1.05);
+}
+.lp__item-desc{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(1.35em * 2);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(.62rem, .3vw + .5rem, .74rem);
+  line-height: 1.35;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--color-subtitle-deep);
+}
+
+/* =========================================================
+   RODAPÉ — divisória
+   ========================================================= */
+.lp__bottom{
+  position: relative;
+  z-index: 2;
+  margin-top: 1.4rem;
+}
+
+/* =========================================================
+   RESPONSIVO
+   Reduz o número de colunas mantendo a legibilidade das
+   fotos e descrições em telas menores.
+   ========================================================= */
+@media (max-width: 980px){
+  .lp__grid{ grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 760px){
+  .lp{
+    padding: calc(var(--header-h) + 1.6rem) 1.1rem 3.6rem;
+    --lp-section-gap: 2.8rem;
+  }
+  .lp__grid{ grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .lp__card{ padding: 1.3rem 1.1rem; }
+  .lp__subtitle-line{ width: 10vw; }
+}
+
+@media (max-width: 540px){
+  .lp__grid{ grid-template-columns: repeat(2, 1fr); }
+  .lp__card--palette{ gap: 1.6rem 2rem; padding: 1.6rem 1.2rem; }
+}
+
+@media (max-width: 360px){
+  .lp__item-desc{ font-size: .6rem; }
+}
