@@ -26,7 +26,7 @@
   /* mesma imagem + degradê de fundo da seção lista de presentes,
      fixos (não rolam junto com o conteúdo) */
   background-image:
-    url('../imagens/contagem_back.png'),
+    url('../imagens/contagem_back.webp'),
     linear-gradient(45deg, var(--color-light-start) 0%, var(--color-light-end) 100%);
   background-repeat: no-repeat, no-repeat;
   background-size: cover, cover;

@@ -326,7 +326,7 @@ button{ font-family: inherit; cursor: pointer; }
   min-height: 560px;
   max-height: 100vh;
   overflow: hidden;
-  background: #14101a;
+  background: #4c2a60;
   perspective: 1200px;
 }
 .hero__stage{

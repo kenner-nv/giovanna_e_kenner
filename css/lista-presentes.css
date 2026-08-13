@@ -19,7 +19,7 @@
   /* a primeira camada listada fica por cima: a imagem precisa vir
      antes do degradê para que ela apareça sobre a cor de fundo */
   background-image:
-    url('../imagens/contagem_back.png'),
+    url('../imagens/contagem_back.webp'),
     linear-gradient(45deg, var(--color-light-start) 0%, var(--color-light-end) 100%);
   background-repeat: no-repeat, no-repeat;
   background-size: cover, cover;
