@@ -343,23 +343,23 @@ button{ font-family: inherit; cursor: pointer; }
   will-change: transform;
 }
 .hero__layer--back{
-  z-index: 1; background-image: url('../imagens/hero-back.jpg');
+  z-index: 1; background-image: url('../imagens/hero-back.webp');
   background-position: center 100%;
 }
 .hero__layer--back-mid{
-  z-index: 2; background-image: url('../imagens/hero-back-mid.png');
+  z-index: 2; background-image: url('../imagens/hero-back-mid.webp');
   background-position: center 100%;
 }
 .hero__layer--mid{
-  z-index: 3; background-image: url('../imagens/hero-mid.png');
+  z-index: 3; background-image: url('../imagens/hero-mid.webp');
   background-position: center 100%;
 }
 .hero__layer--mid-front{
-  z-index: 4; background-image: url('../imagens/hero-mid-front.png');
+  z-index: 4; background-image: url('../imagens/hero-mid-front.webp');
   background-position: center 100%;
 }
 .hero__layer--front{
-  z-index: 5; background-image: url('../imagens/hero-front.png');
+  z-index: 5; background-image: url('../imagens/hero-front.webp');
   background-position: center 100%;
 }
 
@@ -445,7 +445,7 @@ button{ font-family: inherit; cursor: pointer; }
 .countdown__bgimage{
   position: absolute;
   inset: 0;
-  background-image: url('../imagens/contagem_back.png');
+  background-image: url('../imagens/contagem_back.webp');
   background-size: cover;
   background-position: center;
   pointer-events: none;
@@ -520,7 +520,7 @@ button{ font-family: inherit; cursor: pointer; }
 .historia__bgimage{
   position: absolute;
   inset: 0;
-  background-image: url('../imagens/historia.png');
+  background-image: url('../imagens/historia.webp');
   background-size: cover;
   background-position: center;
   pointer-events: none;
@@ -646,7 +646,7 @@ button{ font-family: inherit; cursor: pointer; }
 .ceremony__bgimage{
   position: absolute;
   inset: 0;
-  background-image: url('../imagens/cerimonia_back.png');
+  background-image: url('../imagens/cerimonia_back.webp');
   background-size: cover;
   background-position: center;
   pointer-events: none;
@@ -776,23 +776,23 @@ button{ font-family: inherit; cursor: pointer; }
   will-change: transform;
 }
 .farewell__layer--back{
-  z-index: 1; background-image: url('../imagens/hero-back.jpg');
+  z-index: 1; background-image: url('../imagens/hero-back.webp');
   background-position: center 100%;
 }
 .farewell__layer--back-mid{
-  z-index: 2; background-image: url('../imagens/hero-back-mid.png');
+  z-index: 2; background-image: url('../imagens/hero-back-mid.webp');
   background-position: center 100%;
 }
 .farewell__layer--mid{
-  z-index: 3; background-image: url('../imagens/hero-mid.png');
+  z-index: 3; background-image: url('../imagens/hero-mid.webp');
   background-position: center 100%;
 }
 .farewell__layer--mid-front{
-  z-index: 4; background-image: url('../imagens/hero-mid-front.png');
+  z-index: 4; background-image: url('../imagens/hero-mid-front.webp');
   background-position: center 100%;
 }
 .farewell__layer--front{
-  z-index: 5; background-image: url('../imagens/hero-front.png');
+  z-index: 5; background-image: url('../imagens/hero-front.webp');
   background-position: center 100%;
 }
 .farewell__scrim{
