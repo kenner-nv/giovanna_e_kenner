@@ -41,7 +41,7 @@
     }
   ];
 
-  var TOTAL_BG = 5; // uma imagem de fundo por card: imagens/nossa_historia/bg-01.webp..bg-05.webp
+  var TOTAL_BG = 3; // 3 imagens de fundo compartilhadas entre os 5 capítulos: imagens/nossa_historia/bg-01.webp..bg-03.webp
   var BG_STEP_DELAY = 420; // ms entre cada imagem, caso o alvo esteja a mais de 1 passo de distância
   var BG_CLEANUP_DELAY = 1750; // aguarda a transição de opacidade (1.7s) terminar antes de "limpar" camadas antigas
   var CARD_TRANSITION_MS = 380;
@@ -184,8 +184,9 @@
 
   /* ---------- Fundo sincronizado ---------- */
   function slideToBgIndex(index, total) {
-    // 1 imagem de fundo por card — mapeamento direto
-    return Math.min(index, TOTAL_BG - 1);
+    // cada imagem de fundo é compartilhada por 2 capítulos:
+    // capítulos 1-2 -> bg 0 · capítulos 3-4 -> bg 1 · capítulo 5 -> bg 2
+    return Math.min(Math.floor(index / 2), TOTAL_BG - 1);
   }
 
   function setBackground(index, animated) {

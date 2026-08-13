@@ -28,18 +28,9 @@
 }
 .lp .grain{ z-index: 1; }
 
-/* ---------- Divisórias em tom roxo (mesmo padrão das seções
-   "contagem" e "cerimônia", que também têm fundo claro) ---------- */
-.lp .divider__line:first-child{
-  background: linear-gradient(90deg, rgba(76,42,96,.35) 0%, rgba(76,42,96,.35) 55%, rgba(76,42,96,.05) 100%);
-}
-.lp .divider__line:last-child{
-  background: linear-gradient(90deg, rgba(76,42,96,.05) 0%, rgba(76,42,96,.35) 45%, rgba(76,42,96,.35) 100%);
-}
-.lp .divider__line:first-child::before,
-.lp .divider__line:last-child::after{
-  background: rgba(76,42,96,.35);
-}
+/* Divisórias em tom roxo: regra compartilhada agora vive em style.css
+   (seletores .lp já incluídos lá), evitando duplicar o mesmo CSS
+   em cada página. */
 
 /* espaço padrão entre o título/grid de um bloco e o subtítulo
    seguinte — usado tanto abaixo do título principal quanto

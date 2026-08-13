@@ -3,20 +3,17 @@
    Camadas de profundidade (data-depth) reagem ao mouse em
    telas com ponteiro fino (desktop) e a um movimento
    automático muito lento em telas de toque (mobile).
-   Todo o efeito respeita prefers-reduced-motion.
    ========================================================= */
 (function () {
   "use strict";
 
-  // O parallax está sempre ativo, independentemente de preferências de movimento do sistema.
-  var reduceMotion = false;
   // Detecta dispositivo de toque pela ausência real de hover/ponteiro fino —
   // NUNCA pela largura da janela. Uma janela de desktop redimensionada ou
   // dividida ainda tem mouse, e deve continuar usando o parallax por mouse.
   var useAutoMode = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
   var scenes = Array.prototype.slice.call(document.querySelectorAll("[data-parallax-scene]"));
-  if (!scenes.length || reduceMotion) return;
+  if (!scenes.length) return;
 
   var sceneData = scenes.map(function (scene) {
     var layers = Array.prototype.slice.call(scene.querySelectorAll("[data-depth]")).map(function (el) {
@@ -83,6 +80,8 @@
 
   /* ---------- Render loop ---------- */
   var lastTime = performance.now();
+  var rafId = null;
+
   function tick(now) {
     var dt = now - lastTime;
     lastTime = now;
@@ -100,20 +99,27 @@
         var strength = useAutoMode ? layer.depth * 0.35 : layer.depth;
         var tx = s.currentX * strength;
         var ty = s.currentY * strength * 0.6;
-        var tiltStrength = useAutoMode ? 0 : Math.min(layer.depth * 0.035, 1.1);
-        var rx = -s.currentY * tiltStrength;
-        var ry = s.currentX * tiltStrength;
 
         layer.el.style.transform =
-          "translate3d(" + tx.toFixed(2) + "px," + ty.toFixed(2) + "px,0) " +
-          /*"rotateX(" + rx.toFixed(3) + "deg) rotateY(" + ry.toFixed(3) + "deg) " +*/
-          "scale(0.9)";
+          "translate3d(" + tx.toFixed(2) + "px," + ty.toFixed(2) + "px,0) scale(0.9)";
       });
     });
 
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
   }
 
+  // pausa o loop quando a aba está em segundo plano — no modo automático
+  // (mobile) ele rodaria para sempre em background sem necessidade
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else {
+      lastTime = performance.now();
+      if (rafId === null) rafId = requestAnimationFrame(tick);
+    }
+  });
+
   if (!useAutoMode) bindMouse();
-  requestAnimationFrame(tick);
+  rafId = requestAnimationFrame(tick);
 })();

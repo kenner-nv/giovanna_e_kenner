@@ -37,13 +37,13 @@
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transform: scale(1.015);
-  transition: opacity 1.7s linear, transform 7s linear;
-  will-change: opacity, transform;
+  /* apenas a transição (crossfade) entre imagens permanece —
+     o zoom lento (scale) foi removido a pedido */
+  transition: opacity 1.7s linear;
+  will-change: opacity;
 }
 .nh__bg-layer.is-visible{
   opacity: 1;
-  transform: scale(1.07);
 }
 
 /* Véu leve apenas para garantir legibilidade do texto — sem escurecer a imagem */

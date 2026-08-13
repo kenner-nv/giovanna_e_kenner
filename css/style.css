@@ -158,18 +158,29 @@ button{ font-family: inherit; cursor: pointer; }
 .divider__line:first-child::before{ left: 0; }
 .divider__line:last-child::after{ right: 0; }
 
+/* Padrão de divisória em tom roxo, compartilhado entre todas as
+   seções/páginas de fundo claro (contagem, cerimônia, lista de
+   presentes e confirmar presença) — antes duplicado em 3 arquivos CSS */
 .countdown .divider__line:first-child,
-.ceremony .divider__line:first-child{
+.ceremony .divider__line:first-child,
+.cp .divider__line:first-child,
+.lp .divider__line:first-child{
   background: linear-gradient(90deg, rgba(76,42,96,.35) 0%, rgba(76,42,96,.35) 55%, rgba(76,42,96,.05) 100%);
 }
 .countdown .divider__line:last-child,
-.ceremony .divider__line:last-child{
+.ceremony .divider__line:last-child,
+.cp .divider__line:last-child,
+.lp .divider__line:last-child{
   background: linear-gradient(90deg, rgba(76,42,96,.05) 0%, rgba(76,42,96,.35) 45%, rgba(76,42,96,.35) 100%);
 }
 .countdown .divider__line:first-child::before,
 .countdown .divider__line:last-child::after,
 .ceremony .divider__line:first-child::before,
-.ceremony .divider__line:last-child::after{
+.ceremony .divider__line:last-child::after,
+.cp .divider__line:first-child::before,
+.cp .divider__line:last-child::after,
+.lp .divider__line:first-child::before,
+.lp .divider__line:last-child::after{
   background: rgba(76,42,96,.35);
 }
 
@@ -298,6 +309,12 @@ button{ font-family: inherit; cursor: pointer; }
 .nav-toggle.is-open span:nth-child(1){ transform: translateY(10.5px) rotate(45deg); }
 .nav-toggle.is-open span:nth-child(2){ opacity: 0; }
 .nav-toggle.is-open span:nth-child(3){ transform: translateY(-10.5px) rotate(-45deg); }
+
+/* Botão "x" para fechar o menu mobile — fica no canto superior do
+   painel deslizante e só existe visualmente em telas ≤860px */
+.nav-close{
+  display: none;
+}
 
 /* =========================================================
    HERO
@@ -945,6 +962,29 @@ button{ font-family: inherit; cursor: pointer; }
     justify-content: center;
   }
   .primary-nav.is-open{ transform: translate3d(0, 0, 0); }
+
+  .nav-close{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 1.15rem;
+    right: 1.3rem;
+    width: 34px;
+    height: 34px;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-cream);
+    transition: color .3s var(--ease-out), transform .3s var(--ease-out);
+  }
+  .nav-close svg{ width: 15px; height: 15px; }
+  .nav-close:hover,
+  .nav-close:focus-visible{
+    color: var(--color-lavender-soft);
+    transform: rotate(90deg);
+  }
+
   .primary-nav ul{
     flex-direction: column;
     gap: 0;

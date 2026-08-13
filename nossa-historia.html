@@ -25,7 +25,7 @@
 <header class="site-header" id="siteHeader">
   <div class="site-header__inner">
     <a href="index.html" class="brand" aria-label="Página inicial — Giovanna e Kenner">
-      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo">
+      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo" decoding="async">
     </a>
 
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="primaryNav">
@@ -33,6 +33,9 @@
     </button>
 
     <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
+      <button class="nav-close" id="navClose" type="button" aria-label="Fechar menu">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      </button>
       <ul>
         <li><a href="index.html">Início</a></li>
         <li><a href="nossa-historia.html" class="is-active">Nossa<br class="nav-break">História</a></li>
@@ -47,13 +50,12 @@
   <!-- ============ NOSSA HISTÓRIA — SLIDER ============ -->
   <section class="nh" id="nh">
 
-    <!-- fundo: sequência de 15 imagens que se sobrepõem conforme os capítulos avançam -->
+    <!-- fundo: 3 imagens que se revezam conforme os capítulos avançam
+         (bg-01: capítulos 1-2 · bg-02: capítulos 3-4 · bg-03: capítulo 5) -->
     <div class="nh__bg" id="nhBg" aria-hidden="true">
       <div class="nh__bg-layer" data-bg-index="0" style="background-image:url('imagens/nossa_historia/bg-01.webp')"></div>
       <div class="nh__bg-layer" data-bg-index="1" style="background-image:url('imagens/nossa_historia/bg-02.webp')"></div>
       <div class="nh__bg-layer" data-bg-index="2" style="background-image:url('imagens/nossa_historia/bg-03.webp')"></div>
-      <div class="nh__bg-layer" data-bg-index="3" style="background-image:url('imagens/nossa_historia/bg-04.webp')"></div>
-      <div class="nh__bg-layer" data-bg-index="4" style="background-image:url('imagens/nossa_historia/bg-05.webp')"></div>
     </div>
     <div class="nh__scrim" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
@@ -63,7 +65,7 @@
       <div class="divider divider--white" aria-hidden="true">
         <span class="divider__line"></span>
         <span class="divider__ornament">
-          <img src="imagens/divisor_final.svg" alt="" class="ornament-svg">
+          <img src="imagens/divisor_final.svg" alt="" class="ornament-svg" loading="lazy" decoding="async">
         </span>
         <span class="divider__line"></span>
       </div>
@@ -91,10 +93,10 @@
             </div>
             <div class="nh__card-photos" id="nhCardPhotos">
               <div class="nh__photo nh__photo--a">
-                <img id="nhPhotoA" src="" alt="">
+                <img id="nhPhotoA" src="" alt="" decoding="async">
               </div>
               <div class="nh__photo nh__photo--b">
-                <img id="nhPhotoB" src="" alt="">
+                <img id="nhPhotoB" src="" alt="" decoding="async">
               </div>
             </div>
           </div>
@@ -128,7 +130,7 @@
   </section>
 </main>
 
-<script src="js/main.js"></script>
-<script src="js/nossa-historia.js"></script>
+<script src="js/main.js" defer></script>
+<script src="js/nossa-historia.js" defer></script>
 </body>
 </html>

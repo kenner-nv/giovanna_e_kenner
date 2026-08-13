@@ -47,7 +47,15 @@
   function initMobileNav() {
     var toggle = document.getElementById("navToggle");
     var nav = document.getElementById("primaryNav");
+    var closeBtn = document.getElementById("navClose");
     if (!toggle || !nav) return;
+
+    function closeNav() {
+      nav.classList.remove("is-open");
+      toggle.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
 
     toggle.addEventListener("click", function () {
       var isOpen = nav.classList.toggle("is-open");
@@ -56,13 +64,10 @@
       document.body.style.overflow = isOpen ? "hidden" : "";
     });
 
+    if (closeBtn) closeBtn.addEventListener("click", closeNav);
+
     nav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        nav.classList.remove("is-open");
-        toggle.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
-      });
+      link.addEventListener("click", closeNav);
     });
   }
 
@@ -147,8 +152,15 @@
     });
   }
 
-  /* ---------- Brilho suave que acompanha o mouse (sempre ativo) ---------- */
+  /* ---------- Brilho suave que acompanha o mouse ----------
+     Só roda em dispositivos com mouse de verdade (hover: hover):
+     em telas de toque o efeito segue o dedo por uma fração de
+     segundo e some, então é imperceptível — mas continuava
+     consumindo CPU/bateria a cada frame. Também pausa quando a
+     aba fica em segundo plano. ---------- */
   function initCursorGlow() {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
     var glow = document.createElement("div");
     glow.className = "cursor-glow";
     glow.setAttribute("aria-hidden", "true");
@@ -188,19 +200,9 @@
       targetY = e.clientY;
     }, { passive: true });
 
-    window.addEventListener("touchmove", function (e) {
-      if (!e.touches || !e.touches.length) return;
-      targetX = e.touches[0].clientX;
-      targetY = e.touches[0].clientY;
-    }, { passive: true });
+    var rafId = null;
 
-    window.addEventListener("touchstart", function (e) {
-      if (!e.touches || !e.touches.length) return;
-      targetX = e.touches[0].clientX;
-      targetY = e.touches[0].clientY;
-    }, { passive: true });
-
-    function tick(now) {
+    function tick() {
       currentX += (targetX - currentX) * 0.09;
       currentY += (targetY - currentY) * 0.09;
       glow.style.transform = "translate3d(" + currentX.toFixed(1) + "px," + currentY.toFixed(1) + "px,0)";
@@ -212,8 +214,20 @@
         d.el.style.transform = "translate3d(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px,0)";
       });
 
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
+
+    // pausa o loop quando a aba está em segundo plano — evita gastar
+    // CPU/bateria com uma animação que ninguém está vendo
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        rafId = null;
+      } else if (rafId === null) {
+        rafId = requestAnimationFrame(tick);
+      }
+    });
+
+    rafId = requestAnimationFrame(tick);
   }
 })();

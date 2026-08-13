@@ -35,18 +35,9 @@
 }
 .cp .grain{ z-index: 1; }
 
-/* ---------- Divisórias em tom roxo (mesmo padrão das seções
-   "contagem", "cerimônia" e "lista de presentes") ---------- */
-.cp .divider__line:first-child{
-  background: linear-gradient(90deg, rgba(76,42,96,.35) 0%, rgba(76,42,96,.35) 55%, rgba(76,42,96,.05) 100%);
-}
-.cp .divider__line:last-child{
-  background: linear-gradient(90deg, rgba(76,42,96,.05) 0%, rgba(76,42,96,.35) 45%, rgba(76,42,96,.35) 100%);
-}
-.cp .divider__line:first-child::before,
-.cp .divider__line:last-child::after{
-  background: rgba(76,42,96,.35);
-}
+/* Divisórias em tom roxo: regra compartilhada agora vive em style.css
+   (seletores .cp já incluídos lá), evitando duplicar o mesmo CSS
+   em cada página. */
 
 .cp{
   --cp-section-gap: clamp(3.6rem, 2.2rem + 4vw, 6rem);

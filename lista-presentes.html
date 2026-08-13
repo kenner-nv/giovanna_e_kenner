@@ -25,7 +25,7 @@
 <header class="site-header" id="siteHeader">
   <div class="site-header__inner">
     <a href="index.html" class="brand" aria-label="Página inicial — Giovanna e Kenner">
-      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo">
+      <img src="imagens/logo.png" alt="Monograma Giovanna e Kenner" class="brand__logo" decoding="async">
     </a>
 
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="primaryNav">
@@ -33,6 +33,9 @@
     </button>
 
     <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
+      <button class="nav-close" id="navClose" type="button" aria-label="Fechar menu">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      </button>
       <ul>
         <li><a href="index.html">Início</a></li>
         <li><a href="nossa-historia.html">Nossa<br class="nav-break">História</a></li>
@@ -53,7 +56,7 @@
       <div class="divider" aria-hidden="true">
         <span class="divider__line"></span>
         <span class="divider__ornament divider__ornament--glow">
-          <img src="imagens/divisor_superior.svg" alt="" class="ornament-svg">
+          <img src="imagens/divisor_superior.svg" alt="" class="ornament-svg" loading="lazy" decoding="async">
         </span>
         <span class="divider__line"></span>
       </div>
@@ -132,7 +135,7 @@
       <div class="divider" aria-hidden="true">
         <span class="divider__line"></span>
         <span class="divider__ornament">
-          <img src="imagens/divisor_inferior.svg" alt="" class="ornament-svg">
+          <img src="imagens/divisor_inferior.svg" alt="" class="ornament-svg" loading="lazy" decoding="async">
         </span>
         <span class="divider__line"></span>
       </div>
@@ -141,7 +144,7 @@
   </section>
 </main>
 
-<script src="js/main.js"></script>
-<script src="js/lista-presentes.js"></script>
+<script src="js/main.js" defer></script>
+<script src="js/lista-presentes.js" defer></script>
 </body>
 </html>
