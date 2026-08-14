@@ -1,116 +1,188 @@
 /* =========================================================
-   LISTA DE PRESENTES — sugestões por ambiente
-   Edite título/descrição e caminho da foto de cada item aqui.
-   Fotos ficam em: imagens/lista_presente/
+   LISTA DE PRESENTES — camada de apresentação
+   Este arquivo NÃO possui mais nenhum catálogo local: os
+   presentes (nome/foto) vêm exclusivamente da coleção
+   "presentes" no Firestore, carregados por js/firebase.js.
+
+   Este arquivo só sabe:
+   - como transformar um presente em um card (reaproveitando
+     o HTML/CSS já existentes: .lp__grid, .lp__item, etc.)
+   - em qual grid (cozinha / quarto e sala / banheiro e
+     lavanderia) cada presente deve entrar, com base no
+     prefixo do ID do documento (ex.: "cozinha-01",
+     "quarto-sala-04", "banheiro-lavanderia-02").
    ========================================================= */
 (function () {
   "use strict";
 
-  var KITCHEN_ITEMS = [
-    { desc: "Jogo de panelas antiaderentes", photo: "imagens/lista_presente/cozinha-01.webp" },
-    { desc: "Panela de pressão", photo: "imagens/lista_presente/cozinha-02.webp" },
-    { desc: "Escorredor de macarrão", photo: "imagens/lista_presente/cozinha-03.webp" },
-    { desc: "Jogo de talheres / Faqueiro", photo: "imagens/lista_presente/cozinha-04.webp" },
-    { desc: "Kit de utensílios de silicone", photo: "imagens/lista_presente/cozinha-05.webp" },
-    { desc: "Kit utensílios inox", photo: "imagens/lista_presente/cozinha-06.webp" },
-    { desc: "Jogo de facas", photo: "imagens/lista_presente/cozinha-07.webp" },
-    { desc: "Kit de espátula para bolo", photo: "imagens/lista_presente/cozinha-08.webp" },
-    { desc: "Conjunto de travessas / saladeiras", photo: "imagens/lista_presente/cozinha-09.webp" },
-    { desc: "Jogo de copos", photo: "imagens/lista_presente/cozinha-10.webp" },
-    { desc: "Jogo de taças", photo: "imagens/lista_presente/cozinha-11.webp" },
-    { desc: "Jogo para sobremesa", photo: "imagens/lista_presente/cozinha-12.webp" },
-    { desc: "Potes herméticos organizadores", photo: "imagens/lista_presente/cozinha-13.webp" },
-    { desc: "Potes organizadores de geladeira", photo: "imagens/lista_presente/cozinha-14.webp" },
-    { desc: "Formas de bolo", photo: "imagens/lista_presente/cozinha-15.webp" },
-    { desc: "Assadeiras de vidro", photo: "imagens/lista_presente/cozinha-16.webp" },
-    { desc: "Jarra de suco", photo: "imagens/lista_presente/cozinha-17.webp" },
-    { desc: "Açucareiro", photo: "imagens/lista_presente/cozinha-18.webp" },
-    { desc: "Boleira", photo: "imagens/lista_presente/cozinha-19.webp" },
-    { desc: "Fruteira / Centro de mesa", photo: "imagens/lista_presente/cozinha-20.webp" },
-    { desc: "Garrafa de café", photo: "imagens/lista_presente/cozinha-21.webp" },
-    { desc: "Escorredor de louça", photo: "imagens/lista_presente/cozinha-22.webp" },
-    { desc: "Tábua de corte", photo: "imagens/lista_presente/cozinha-23.webp" },
-    { desc: "Toalha de mesa", photo: "imagens/lista_presente/cozinha-24.webp" },
-    { desc: "Porta tempero", photo: "imagens/lista_presente/cozinha-25.webp" },
-    { desc: "Chaleira elétrica", photo: "imagens/lista_presente/cozinha-26.webp" },
-    { desc: "Air fryer", photo: "imagens/lista_presente/cozinha-27.webp" },
-    { desc: "Batedeira", photo: "imagens/lista_presente/cozinha-28.webp" },
-    { desc: "Exaustor para fogão 5 bocas", photo: "imagens/lista_presente/cozinha-29.webp" },
-    { desc: "Sanduicheira", photo: "imagens/lista_presente/cozinha-30.webp" },
-    { desc: "Mixer", photo: "imagens/lista_presente/cozinha-31.webp" },
-    { desc: "Liquidificador", photo: "imagens/lista_presente/cozinha-32.webp" },
-    { desc: "Fogão cooktop 5 bocas", photo: "imagens/lista_presente/cozinha-33.webp" },
-    { desc: "Forno elétrico", photo: "imagens/lista_presente/cozinha-34.webp" },
-    { desc: "Microondas", photo: "imagens/lista_presente/cozinha-35.webp" }
-  ];
+  var GRID_BY_CATEGORY = {
+    "cozinha": "lpKitchenGrid",
+    "quarto-sala": "lpBedroomGrid",
+    "banheiro-lavanderia": "lpBathroomGrid"
+  };
 
-  var BEDROOM_LIVING_ITEMS = [
-    { desc: "Jogo de lençol casal queen", photo: "imagens/lista_presente/quarto-sala-01.webp" },
-    { desc: "Edredom queen size", photo: "imagens/lista_presente/quarto-sala-02.webp" },
-    { desc: "Cobertor queen size", photo: "imagens/lista_presente/quarto-sala-03.webp" },
-    { desc: "Travesseiros", photo: "imagens/lista_presente/quarto-sala-04.webp" },
-    { desc: "Tapete para quarto", photo: "imagens/lista_presente/quarto-sala-05.webp" },
-    { desc: "Umidificador de ar", photo: "imagens/lista_presente/quarto-sala-06.webp" },
-    { desc: "Caixa organizadora", photo: "imagens/lista_presente/quarto-sala-07.webp" },
-    { desc: "Cabides", photo: "imagens/lista_presente/quarto-sala-08.webp" },
-    { desc: "Cortinas blackout", photo: "imagens/lista_presente/quarto-sala-09.webp" },
-    { desc: "Manta para sofá", photo: "imagens/lista_presente/quarto-sala-10.webp" },
-    { desc: "Almofadas decorativas", photo: "imagens/lista_presente/quarto-sala-11.webp" },
-    { desc: "Espelho decorativo", photo: "imagens/lista_presente/quarto-sala-12.webp" },
-    { desc: "Tapete para sala", photo: "imagens/lista_presente/quarto-sala-13.webp" }
-  ];
-
-  var BATHROOM_LAUNDRY_ITEMS = [
-    { desc: "Chuveiro", photo: "imagens/lista_presente/banheiro-lavanderia-01.webp" },
-    { desc: "Tapete para banheiro", photo: "imagens/lista_presente/banheiro-lavanderia-02.webp" },
-    { desc: "Lixeiro", photo: "imagens/lista_presente/banheiro-lavanderia-03.webp" },
-    { desc: "Organizadores para banheiro", photo: "imagens/lista_presente/banheiro-lavanderia-04.webp" },
-    { desc: "Cesto para roupa suja", photo: "imagens/lista_presente/banheiro-lavanderia-05.webp" },
-    { desc: "Tábua de passar roupa", photo: "imagens/lista_presente/banheiro-lavanderia-06.webp" },
-    { desc: "Ferro de passar", photo: "imagens/lista_presente/banheiro-lavanderia-07.webp" },
-    { desc: "Passadeira / Vaporizador portátil", photo: "imagens/lista_presente/banheiro-lavanderia-08.webp" },
-    { desc: "Varal retrátil", photo: "imagens/lista_presente/banheiro-lavanderia-09.webp" },
-    { desc: "Aspirador de pó", photo: "imagens/lista_presente/banheiro-lavanderia-10.webp" },
-    { desc: "Moop Spray", photo: "imagens/lista_presente/banheiro-lavanderia-11.webp" },
-    { desc: "Robô aspirador", photo: "imagens/lista_presente/banheiro-lavanderia-12.webp" }
-  ];
-
-  document.addEventListener("DOMContentLoaded", init);
-
-  function init() {
-    renderGrid("lpKitchenGrid", KITCHEN_ITEMS);
-    renderGrid("lpBedroomGrid", BEDROOM_LIVING_ITEMS);
-    renderGrid("lpBathroomGrid", BATHROOM_LAUNDRY_ITEMS);
+  /* Extrai a categoria a partir do ID do documento, removendo
+     o sufixo numérico final. Ex.: "cozinha-01" -> "cozinha" */
+  function categoryFromId(id) {
+    return String(id).replace(/-\d+$/, "");
   }
 
-  function renderGrid(containerId, items) {
-    var container = document.getElementById(containerId);
-    if (!container || !items || !items.length) return;
+  /* ---------------------------------------------------------
+     REGISTRY — ponte entre a apresentação (HTML/CSS já
+     existentes) e a camada Firebase (js/firebase.js).
+     --------------------------------------------------------- */
+  var GiftsRegistry = (function () {
+    var items = {};        // id -> { id, desc, photo, cardEl, photoEl, imgEl, descEl }
+    var interactionOn = false;
+    var clickHandler = null;
 
-    var fragment = document.createDocumentFragment();
+    function renderGifts(gifts) {
+      // gifts: [{ id, nome, foto }, ...] — vindo do Firestore
+      var byGrid = {};
 
-    items.forEach(function (item) {
+      gifts.forEach(function (gift) {
+        var category = categoryFromId(gift.id);
+        var containerId = GRID_BY_CATEGORY[category];
+        if (!containerId) {
+          console.warn('[lista-presentes] Presente "' + gift.id + '" não corresponde a nenhuma seção conhecida e foi ignorado.');
+          return;
+        }
+        if (!byGrid[containerId]) byGrid[containerId] = document.createDocumentFragment();
+        byGrid[containerId].appendChild(buildCard(gift));
+      });
+
+      Object.keys(byGrid).forEach(function (containerId) {
+        var container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = "";
+        container.appendChild(byGrid[containerId]);
+      });
+    }
+
+    function buildCard(gift) {
+      var id = gift.id;
+      var desc = gift.nome || "";
+      var photo = gift.foto || "";
+
       var cell = document.createElement("div");
       cell.className = "lp__item";
+      cell.setAttribute("data-gift-id", id);
 
       var photoWrap = document.createElement("div");
       photoWrap.className = "lp__item-photo";
+      photoWrap.setAttribute("role", "button");
+      photoWrap.setAttribute("tabindex", "0");
+      photoWrap.setAttribute("aria-label", desc + " — carregando disponibilidade");
 
       var img = document.createElement("img");
-      img.src = item.photo;
-      img.alt = item.desc;
+      img.src = photo;
+      img.alt = desc;
       img.loading = "lazy";
 
-      var desc = document.createElement("p");
-      desc.className = "lp__item-desc";
-      desc.textContent = item.desc;
+      var descEl = document.createElement("p");
+      descEl.className = "lp__item-desc";
+      descEl.textContent = desc;
 
       photoWrap.appendChild(img);
       cell.appendChild(photoWrap);
-      cell.appendChild(desc);
-      fragment.appendChild(cell);
-    });
+      cell.appendChild(descEl);
 
-    container.appendChild(fragment);
-  }
+      photoWrap.addEventListener("click", function () {
+        triggerActivate(id);
+      });
+      photoWrap.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          triggerActivate(id);
+        }
+      });
+
+      items[id] = {
+        id: id,
+        desc: desc,
+        photo: photo,
+        cardEl: cell,
+        photoEl: photoWrap,
+        imgEl: img,
+        descEl: descEl,
+        reserved: false,
+        badgeEl: null
+      };
+
+      return cell;
+    }
+
+    function getItem(id) {
+      return items[id] || null;
+    }
+
+    function getAllIds() {
+      return Object.keys(items);
+    }
+
+    function setInteractionEnabled(on) {
+      interactionOn = !!on;
+    }
+
+    function isInteractionEnabled() {
+      return interactionOn;
+    }
+
+    function onGiftActivate(handler) {
+      clickHandler = handler;
+    }
+
+    function triggerActivate(id) {
+      if (!interactionOn || typeof clickHandler !== "function") return;
+      clickHandler(id);
+    }
+
+    function markReserved(id) {
+      var entry = items[id];
+      if (!entry || entry.reserved) return;
+      entry.reserved = true;
+      entry.photoEl.classList.add("lp__item-photo--reserved");
+      entry.cardEl.classList.add("lp__item--reserved");
+      if (!entry.badgeEl) {
+        entry.badgeEl = document.createElement("span");
+        entry.badgeEl.className = "lp__reserved-badge";
+        entry.badgeEl.setAttribute("aria-hidden", "true");
+        entry.badgeEl.innerHTML =
+          '<svg viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
+          '<circle cx="12" cy="12" r="12" fill="currentColor"></circle>' +
+          '<path d="M7 12.5l3.2 3.2L17 8.7" stroke="#fff" stroke-width="2.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+          "</svg>";
+        entry.photoEl.appendChild(entry.badgeEl);
+      }
+      entry.photoEl.setAttribute("aria-label", entry.desc + " — presente já reservado");
+    }
+
+    function markAvailable(id) {
+      var entry = items[id];
+      if (!entry || !entry.reserved) return;
+      entry.reserved = false;
+      entry.photoEl.classList.remove("lp__item-photo--reserved");
+      entry.cardEl.classList.remove("lp__item--reserved");
+      if (entry.badgeEl) {
+        entry.badgeEl.remove();
+        entry.badgeEl = null;
+      }
+      entry.photoEl.setAttribute("aria-label", entry.desc + " — disponível para reserva");
+    }
+
+    return {
+      renderGifts: renderGifts,
+      getItem: getItem,
+      getAllIds: getAllIds,
+      setInteractionEnabled: setInteractionEnabled,
+      isInteractionEnabled: isInteractionEnabled,
+      onGiftActivate: onGiftActivate,
+      markReserved: markReserved,
+      markAvailable: markAvailable
+    };
+  })();
+
+  // Exposto para js/firebase.js consumir (arquivo carregado com
+  // `defer`, portanto o DOM já está pronto quando isto executa).
+  window.GiftsRegistry = GiftsRegistry;
 })();

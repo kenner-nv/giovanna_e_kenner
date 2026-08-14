@@ -272,3 +272,236 @@
 @media (max-width: 360px){
   .lp__item-desc{ font-size: .6rem; }
 }
+
+/* =========================================================
+   FIREBASE — ESTADO DE RESERVA DOS PRESENTES
+   Adicionado apenas para refletir o estado "reservado" vindo
+   do Firestore, sem alterar o restante do design existente.
+   ========================================================= */
+.lp__item-photo{
+  position: relative;
+  cursor: pointer;
+}
+.lp__item-photo:focus-visible{
+  outline: 2px solid rgba(76,42,96,.6);
+  outline-offset: 3px;
+}
+
+/* Plano branco com 60% de transparência sobre a imagem reservada */
+.lp__item-photo--reserved::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.6);
+  z-index: 2;
+  pointer-events: none;
+}
+.lp__item-photo--reserved{ cursor: pointer; }
+.lp__item-photo--reserved img{ filter: saturate(.6); }
+
+/* Ícone de check roxo, ~15% do card, canto inferior direito */
+.lp__reserved-badge{
+  position: absolute;
+  right: 6%;
+  bottom: 6%;
+  width: 15%;
+  aspect-ratio: 1 / 1;
+  color: rgba(76,42,96,.92);
+  filter: drop-shadow(0 2px 6px rgba(10,4,16,.28));
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Enquanto o Firebase ainda não determinou o estado real, evita
+   que o usuário clique em algo que ainda não foi confirmado */
+.lp__grid--loading .lp__item-photo{
+  cursor: default;
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* =========================================================
+   FIREBASE — CARD FLUTUANTE (confirmação / nome / mensagens)
+   Reaproveita o mesmo estilo "glass card" já usado em .lp__card.
+   ========================================================= */
+.lp-sheet-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(20,10,26,.28);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s var(--ease-out, ease);
+  padding: 0 1rem;
+}
+.lp-sheet-overlay.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lp-sheet{
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: clamp(1rem, 3vh, 2.4rem);
+  border-radius: 20px 20px 18px 18px;
+  border: 1px solid rgba(216,201,234,.6);
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 20px 48px rgba(10,4,16,.28), inset 0 1px 0 rgba(255,255,255,.6);
+  padding: 1.5rem 1.4rem 1.3rem;
+  text-align: center;
+  transform: translateY(16px);
+  transition: transform .32s var(--ease-out, ease);
+}
+.lp-sheet-overlay.is-open .lp-sheet{
+  transform: translateY(0);
+}
+
+.lp-sheet__title{
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1rem, .8rem + .6vw, 1.2rem);
+  color: var(--color-title-dark, #2a1533);
+  margin: 0 0 .5rem;
+  line-height: 1.4;
+}
+.lp-sheet__subtitle{
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: .82rem;
+  color: var(--color-subtitle-deep, #4c2a60);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+.lp-sheet__link{
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.lp-sheet__input-wrap{
+  margin: .2rem 0 1.1rem;
+}
+.lp-sheet__input{
+  width: 100%;
+  border-radius: 12px;
+  border: 1.5px solid rgba(76,42,96,.35);
+  background: rgba(255,255,255,.9);
+  padding: .75rem .9rem;
+  font-family: var(--font-display);
+  font-size: .95rem;
+  color: #2a1533;
+  text-align: center;
+  outline: none;
+}
+.lp-sheet__input:focus{
+  border-color: rgba(76,42,96,.7);
+}
+
+.lp-sheet__actions{
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+}
+.lp-sheet__btn{
+  flex: 1 1 0;
+  border: none;
+  border-radius: 999px;
+  padding: .75rem 1rem;
+  font-family: var(--font-display);
+  font-size: .82rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .25s var(--ease-out, ease), box-shadow .25s var(--ease-out, ease);
+}
+.lp-sheet__btn:hover{ transform: translateY(-1px); }
+.lp-sheet__btn--primary{
+  background: rgba(76,42,96,.92);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(76,42,96,.28);
+}
+.lp-sheet__btn--ghost{
+  background: rgba(76,42,96,.08);
+  color: rgba(76,42,96,.92);
+}
+.lp-sheet__btn--single{
+  flex: none;
+  width: 100%;
+}
+
+/* =========================================================
+   FIREBASE — TOAST (mensagens de sucesso/erro)
+   ========================================================= */
+.lp-toast{
+  position: fixed;
+  left: 50%;
+  bottom: clamp(1.2rem, 4vh, 2.4rem);
+  transform: translate(-50%, 12px);
+  z-index: 95;
+  max-width: min(92vw, 420px);
+  border-radius: 14px;
+  padding: .85rem 1.2rem;
+  font-family: var(--font-display);
+  font-size: .85rem;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(10,4,16,.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s var(--ease-out, ease), transform .3s var(--ease-out, ease);
+}
+.lp-toast.is-open{
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.lp-toast--success{ background: rgba(76,42,96,.94); }
+.lp-toast--error{ background: rgba(150,40,40,.94); }
+
+/* Nome do presente destacado em roxo no card de confirmação */
+.lp-sheet__highlight{
+  color: rgba(76,42,96,.95);
+  font-weight: 600;
+}
+
+/* =========================================================
+   FIREBASE — DICA FLUTUANTE ("clique para reservar")
+   Card pequeno, em linha única, exibido até o usuário
+   selecionar o primeiro presente.
+   ========================================================= */
+.lp-hint{
+  position: fixed;
+  left: 50%;
+  bottom: clamp(1rem, 3vh, 1.8rem);
+  transform: translate(-50%, 14px);
+  z-index: 80;
+  max-width: min(92vw, 420px);
+  border-radius: 999px;
+  border: 1px solid rgba(216,201,234,.6);
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 12px 26px rgba(10,4,16,.2), inset 0 1px 0 rgba(255,255,255,.6);
+  padding: .65rem 1.2rem;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s var(--ease-out, ease), transform .3s var(--ease-out, ease);
+}
+.lp-hint.is-open{
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.lp-hint__msg{
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: .8rem;
+  letter-spacing: .01em;
+  color: var(--color-title-dark, #2a1533);
+}
