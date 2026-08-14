@@ -9,12 +9,23 @@
    Functions. Carregado como <script type="module">.
    ========================================================= */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+// ============================================================
+// IMPORTS
+// ============================================================
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app-check.js";
+
 import {
   getAuth,
   signInAnonymously,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+
 import {
   getFirestore,
   doc,
@@ -28,16 +39,13 @@ import {
   onSnapshot,
   runTransaction,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-/* ---------------------------------------------------------
-   1) CONFIGURAÇÃO DO FIREBASE
-   Substitua pelos valores do seu projeto (Configurações do
-   projeto > Seus apps > SDK do Firebase, no console). Estas
-   chaves são públicas por natureza no Firebase Web SDK — a
-   segurança real vem das Security Rules do Firestore, não
-   deste arquivo.
-   --------------------------------------------------------- */
+
+// ============================================================
+// CONFIGURAÇÃO DO FIREBASE
+// ============================================================
+
 const firebaseConfig = {
   apiKey: "AIzaSyDW02Hy-EDMovxuZ2FUgp-G4shVY6_pV5Q",
   authDomain: "site-casamento-keg.firebaseapp.com",
@@ -47,83 +55,216 @@ const firebaseConfig = {
   appId: "1:329553657252:web:28ff8f84f529853ddc5531"
 };
 
-/* ---------------------------------------------------------
-   ESTADO EM MEMÓRIA (nunca é a fonte de verdade — apenas
-   cache para evitar leituras redundantes; toda operação de
-   escrita revalida no Firestore antes de confirmar).
-   --------------------------------------------------------- */
+
+// ============================================================
+// APP CHECK
+// ============================================================
+
+// Chave pública do reCAPTCHA Enterprise
+const RECAPTCHA_SITE_KEY = "6Lcg7YQtAAAAAP11BRVIIUPePtpPVRxyq4qExwC-";
+
+
+// ============================================================
+// ESTADO EM MEMÓRIA
+// ============================================================
+
 let app = null;
+let appCheck = null;
 let auth = null;
 let db = null;
+
 let currentUid = null;
 let reservationsUnsubscribe = null;
 let dataReady = false;
 
-/* ---------------------------------------------------------
-   BOOTSTRAP
-   --------------------------------------------------------- */
+
+// ============================================================
+// BOOTSTRAP
+// ============================================================
+
 document.addEventListener("DOMContentLoaded", boot);
 
+
 async function boot() {
+
   buildFloatingUI();
+
   window.GiftsRegistry.onGiftActivate(handleGiftActivate);
+
   setLoadingState(true);
 
   try {
+
+    // 1. Firebase
     initializeFirebase();
+
+    // 2. Autenticação anônima
     await initializeAnonymousAuth();
+
+    // 3. Documento do usuário
     await initializeUserDocument(currentUid);
+
+    // 4. Carregar presentes
     await loadGifts();
+
+    // 5. Carregar reservas
     await loadReservations();
+
+    // 6. Escutar alterações em tempo real
     listenToReservations();
+
     setLoadingState(false);
+
     showHint();
+
   } catch (err) {
-    console.error("[lista-presentes] Falha ao iniciar Firebase:", err);
+
+    console.error(
+      "[lista-presentes] Falha ao iniciar Firebase:",
+      err
+    );
+
     setLoadingState(false, true);
-    showErrorMessage("Não foi possível carregar a lista de presentes agora. Atualize a página para tentar novamente.");
+
+    showErrorMessage(
+      "Não foi possível carregar a lista de presentes agora. Atualize a página para tentar novamente."
+    );
   }
 }
 
-/* ---------------------------------------------------------
-   2) INICIALIZAÇÃO
-   --------------------------------------------------------- */
+
+// ============================================================
+// INICIALIZAÇÃO DO FIREBASE
+// ============================================================
+
 function initializeFirebase() {
-  if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "SUA_API_KEY") {
+
+  if (
+    !firebaseConfig.apiKey ||
+    firebaseConfig.apiKey === "SUA_API_KEY"
+  ) {
     throw new Error("firebase-config-missing");
   }
+
+
+  // ----------------------------------------------------------
+  // Firebase App
+  // ----------------------------------------------------------
+
   app = initializeApp(firebaseConfig);
+
+
+  // ----------------------------------------------------------
+  // App Check
+  //
+  // IMPORTANTE:
+  // deve acontecer antes de acessar os serviços Firebase.
+  // ----------------------------------------------------------
+
+  if (
+    !RECAPTCHA_SITE_KEY ||
+    RECAPTCHA_SITE_KEY === "SUA_RECAPTCHA_SITE_KEY"
+  ) {
+    throw new Error("recaptcha-site-key-missing");
+  }
+
+
+  appCheck = initializeAppCheck(app, {
+
+    provider: new ReCaptchaEnterpriseProvider(
+      RECAPTCHA_SITE_KEY
+    ),
+
+    isTokenAutoRefreshEnabled: true
+
+  });
+
+
+  // ----------------------------------------------------------
+  // Firebase Authentication
+  // ----------------------------------------------------------
+
   auth = getAuth(app);
+
+
+  // ----------------------------------------------------------
+  // Firestore
+  // ----------------------------------------------------------
+
   db = getFirestore(app);
 }
 
+
+// ============================================================
+// AUTENTICAÇÃO ANÔNIMA
+// ============================================================
+
 function initializeAnonymousAuth() {
+
   return new Promise((resolve, reject) => {
+
     let settled = false;
+
+
     onAuthStateChanged(auth, (user) => {
+
       if (user) {
+
         currentUid = user.uid;
+
         if (!settled) {
+
           settled = true;
+
           resolve(currentUid);
         }
       }
     });
-    signInAnonymously(auth).catch((err) => {
-      if (!settled) {
-        settled = true;
-        reject(err);
-      }
-    });
+
+
+    signInAnonymously(auth)
+      .catch((err) => {
+
+        if (!settled) {
+
+          settled = true;
+
+          reject(err);
+        }
+      });
+
   });
 }
 
+
+// ============================================================
+// DOCUMENTO DO USUÁRIO
+// ============================================================
+
 async function initializeUserDocument(uid) {
-  const ref = doc(db, "usuarios", uid);
+
+  const ref = doc(
+    db,
+    "usuarios",
+    uid
+  );
+
+
   const snap = await getDoc(ref);
+
+
   if (!snap.exists()) {
-    await setDoc(ref, { possui_reserva: false, pode_cancelar: true });
+
+    await setDoc(ref, {
+
+      possui_reserva: false,
+
+      pode_cancelar: true
+
+    });
+
   }
+
 }
 
 /* ---------------------------------------------------------
