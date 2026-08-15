@@ -168,7 +168,7 @@ function initializeFirebase() {
     throw new Error("recaptcha-site-key-missing");
   }
 
-  
+
   appCheck = initializeAppCheck(app, {
 
     provider: new ReCaptchaEnterpriseProvider(
